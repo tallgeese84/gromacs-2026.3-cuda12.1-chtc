@@ -39,6 +39,7 @@ RUN curl --fail --location --retry 5 --retry-all-errors \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/opt/gromacs \
       -DCMAKE_CUDA_ARCHITECTURES="80;86;89;90" \
+      -DBUILD_TESTING=OFF \
       -DGMX_BUILD_OWN_FFTW=ON \
       -DGMX_BUILD_UNITTESTS=OFF \
       -DGMX_GPU=CUDA \
@@ -46,8 +47,9 @@ RUN curl --fail --location --retry 5 --retry-all-errors \
       -DGMX_OPENMP=ON \
       -DGMX_SIMD=AVX2_256 \
       -DGMX_THREAD_MPI=ON \
+      -DGMX_USE_RDTSCP=OFF \
       -DREGRESSIONTEST_DOWNLOAD=OFF \
- && cmake --build gromacs-build --parallel \
+ && cmake --build gromacs-build --parallel 2 \
  && cmake --install gromacs-build \
  && rm -rf /tmp/build/*
 
