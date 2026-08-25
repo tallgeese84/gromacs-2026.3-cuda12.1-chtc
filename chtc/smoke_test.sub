@@ -1,0 +1,25 @@
+universe = container
+
+# Replace edge with the immutable digest emitted by the GitHub Actions build
+# before using this image for production.
+container_image = docker://ghcr.io/tallgeese84/gromacs-2026.3-cuda12.1-chtc:edge
+
+executable = smoke_test.sh
+log = smoke_test_$(Cluster).log
+output = smoke_test_$(Cluster)_$(Process).out
+error = smoke_test_$(Cluster)_$(Process).err
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
++WantGPULab = true
++GPUJobLength = "short"
+request_gpus = 1
+gpus_minimum_capability = 8.0
+gpus_minimum_memory = 20000M
+
+request_cpus = 2
+request_memory = 2GB
+request_disk = 10GB
+
+queue 1
