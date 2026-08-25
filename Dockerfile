@@ -14,7 +14,6 @@ RUN apt-get update \
       ca-certificates \
       curl \
       libhwloc-dev \
-      ninja-build \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/build
@@ -36,7 +35,7 @@ RUN curl --fail --location --retry 5 --retry-all-errors \
       "https://ftp.gromacs.org/gromacs/gromacs-${GROMACS_VERSION}.tar.gz" \
  && printf '%s  %s\n' "${GROMACS_SHA256}" gromacs.tar.gz | sha256sum --check --strict - \
  && tar --extract --gzip --file gromacs.tar.gz \
- && cmake -S "gromacs-${GROMACS_VERSION}" -B gromacs-build -G Ninja \
+ && cmake -S "gromacs-${GROMACS_VERSION}" -B gromacs-build \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/opt/gromacs \
       -DCMAKE_CUDA_ARCHITECTURES="80;86;89;90" \
